@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Personal site</title>
-    <link>http://https://nice-sky-04ca89f03.3.azurestaticapps.net/tags/</link>
+    <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/tags/</link>
     <description>Recent content in Tags on Personal site</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pl-PL</language><atom:link href="http://https://nice-sky-04ca89f03.3.azurestaticapps.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>pl-PL</language><atom:link href="https://nice-sky-04ca89f03.3.azurestaticapps.net/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
