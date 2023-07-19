@@ -1,4 +1,4 @@
-baseURL = 'http://https://nice-sky-04ca89f03.3.azurestaticapps.net/'
+baseURL = 'https://nice-sky-04ca89f03.3.azurestaticapps.net/'
 languageCode = 'pl-PL'
 title = 'Personal site'
 theme = 'ananke'
