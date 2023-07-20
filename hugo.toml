@@ -1,4 +1,4 @@
 baseURL = 'https://nice-sky-04ca89f03.3.azurestaticapps.net/'
-languageCode = 'pl-PL'
-title = 'Personal site'
+languageCode = 'en-US'
+title = 'AZ-204'
 theme = 'ananke'

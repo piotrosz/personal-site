@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Personal site</title>
+    <title>Posts on AZ-204</title>
     <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/</link>
-    <description>Recent content in Posts on Personal site</description>
+    <description>Recent content in Posts on AZ-204</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pl-PL</language>
+    <language>en-US</language>
     <lastBuildDate>Wed, 19 Jul 2023 22:59:43 +0200</lastBuildDate><atom:link href="https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My First Post</title>
-      <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/my-first-post/</link>
+      <title>Implement containerized solutions</title>
+      <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/001-implement-containerized-solutions/</link>
       <pubDate>Wed, 19 Jul 2023 22:59:43 +0200</pubDate>
       
-      <guid>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/my-first-post/</guid>
-      <description>Introduction This is bold text, and this is emphasized text.
-Visit the Hugo website!</description>
+      <guid>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/001-implement-containerized-solutions/</guid>
+      <description>Implement containerized solutions Create and manage container images for solutions Publish an image to Azure Container Registry Run containers by using Azure Container Instance Create solutions by using Azure Container Apps </description>
     </item>
     
   </channel>
