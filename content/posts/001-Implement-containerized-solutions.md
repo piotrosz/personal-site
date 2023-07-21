@@ -85,6 +85,36 @@ az acr run --registry <myContainerRegistry> \
 
 ## Run containers by using Azure Container Instance
 
+ACI
+- isolated containers
+    - simple apps
+    - task automation
+    - build jobs
 
+Benefits:
+    - fast startup
+    - expose FQDN or IP
+    - hypervisor-level security - isolation like in VM
+    - custom size of CPU & memory
+    - persistent storage - use Azure Files
+
+### Container groups
+
+Containers scheduled on the same host machine
+
+Share:
+- lifecycle
+- resources
+- local network
+- storage volumes. 
+
+Like a pod in Kubernetes.
+
+Multi container groups - only for Linux
+
+### Deployement
+
+- ARM template - recommended if need to export additional Az resources (e.g. Az Files)
+- YAML - recommended if only ACI
 
 ## Create solutions by using Azure Container Apps
