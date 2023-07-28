@@ -9,7 +9,7 @@
     <meta name="description" content="Implement containerized solutions Create and manage container images for solutions ACR = Azure Container Registry
 private Docker registry service based on Docker Registry to store Docker images Azure Container Registry tasks - to build containers in Az - build on demand - triggers (e.g. code commits, base image updates)
 Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, App Service, Batch, Service Fabric, etc. CI/CD pipelines e.g. Azure pipelines, Jenkins ACR service tiers Basic - for learning.">
-    <meta name="generator" content="Hugo 0.115.3">
+    <meta name="generator" content="Hugo 0.115.4">
     
     
     
@@ -44,7 +44,7 @@ Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, Ap
 private Docker registry service based on Docker Registry to store Docker images Azure Container Registry tasks - to build containers in Az - build on demand - triggers (e.g. code commits, base image updates)
 Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, App Service, Batch, Service Fabric, etc. CI/CD pipelines e.g. Azure pipelines, Jenkins ACR service tiers Basic - for learning."><meta itemprop="datePublished" content="2023-07-19T22:59:43+02:00" />
 <meta itemprop="dateModified" content="2023-07-19T22:59:43+02:00" />
-<meta itemprop="wordCount" content="293">
+<meta itemprop="wordCount" content="484">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Implement containerized solutions"/>
 <meta name="twitter:description" content="Implement containerized solutions Create and manage container images for solutions ACR = Azure Container Registry
@@ -197,6 +197,61 @@ Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, Ap
     --cmd &#39;$Registry/sample/hello-world:v1&#39; /dev/null
 </code></pre><h2 id="publish-an-image-to-azure-container-registry">Publish an image to Azure Container Registry</h2>
 <h2 id="run-containers-by-using-azure-container-instance">Run containers by using Azure Container Instance</h2>
+<p>ACI</p>
+<ul>
+<li>isolated containers
+<ul>
+<li>simple apps</li>
+<li>task automation</li>
+<li>build jobs</li>
+</ul>
+</li>
+</ul>
+<p>Benefits:
+- fast startup
+- expose FQDN or IP
+- hypervisor-level security - isolation like in VM
+- custom size of CPU &amp; memory
+- persistent storage - use Azure Files</p>
+<h3 id="container-groups">Container groups</h3>
+<p>Containers scheduled on the same host machine</p>
+<p>Share:</p>
+<ul>
+<li>lifecycle</li>
+<li>resources</li>
+<li>local network</li>
+<li>storage volumes.</li>
+</ul>
+<p>Like a pod in Kubernetes.</p>
+<p>Multi container groups - only for Linux</p>
+<h3 id="deployement">Deployement</h3>
+<ul>
+<li>ARM template - recommended if need to export additional Az resources (e.g. Az Files)</li>
+<li>YAML - recommended if only ACI</li>
+</ul>
+<h3 id="resource-allocation">Resource allocation</h3>
+<p>In resource group, each instance requests resource (like CPU).</p>
+<h3 id="networking">Networking</h3>
+<p>Container groups share IP address &amp; port namespace.</p>
+<h3 id="storage">Storage</h3>
+<p>Mount volume within container group, then map to specific path in each container.</p>
+<p>Supported volumes:</p>
+<ul>
+<li>Azure file share</li>
+<li>Secret</li>
+<li>Empty directory</li>
+<li>Cloned git repo</li>
+</ul>
+<h3 id="restart-policies">Restart policies</h3>
+<ul>
+<li>Always - default</li>
+<li>Never - run at most once</li>
+<li>OnFailure - process &lt;&gt; 0</li>
+</ul>
+<p>ACI starts the container, and then stops it when its application, or script, exits.
+When Azure Container Instances stops a container whose restart policy is <code>Never</code> or <code>OnFailure</code>, the container&rsquo;s status is set to <code>Terminated</code>.</p>
+<h3 id="environment-variables">Environment variables</h3>
+<h3 id="mount-azure-file-share">Mount Azure File Share</h3>
 <h2 id="create-solutions-by-using-azure-container-apps">Create solutions by using Azure Container Apps</h2>
 <ul class="pa0">
   

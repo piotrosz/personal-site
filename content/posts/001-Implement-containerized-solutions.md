@@ -117,4 +117,35 @@ Multi container groups - only for Linux
 - ARM template - recommended if need to export additional Az resources (e.g. Az Files)
 - YAML - recommended if only ACI
 
+### Resource allocation
+
+In resource group, each instance requests resource (like CPU).
+
+### Networking
+
+Container groups share IP address & port namespace.
+
+### Storage
+
+Mount volume within container group, then map to specific path in each container.
+
+Supported volumes:
+- Azure file share
+- Secret
+- Empty directory
+- Cloned git repo
+
+### Restart policies
+
+- Always - default
+- Never - run at most once
+- OnFailure - process <> 0
+
+ACI starts the container, and then stops it when its application, or script, exits.
+When Azure Container Instances stops a container whose restart policy is `Never` or `OnFailure`, the container's status is set to `Terminated`.
+
+### Environment variables
+
+### Mount Azure File Share
+
 ## Create solutions by using Azure Container Apps
