@@ -6,7 +6,16 @@
     <description>Recent content in Posts on AZ-204</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 19 Jul 2023 22:59:43 +0200</lastBuildDate><atom:link href="https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Aug 2023 14:31:58 +0200</lastBuildDate><atom:link href="https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implement Secure Azure Solutions&#34;</title>
+      <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/002-implement-secure-solutions/</link>
+      <pubDate>Fri, 11 Aug 2023 14:31:58 +0200</pubDate>
+      
+      <guid>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/002-implement-secure-solutions/</guid>
+      <description>Implement secure Azure solutions Implement Azure Key Vault </description>
+    </item>
+    
     <item>
       <title>Implement containerized solutions</title>
       <link>https://nice-sky-04ca89f03.3.azurestaticapps.net/posts/001-implement-containerized-solutions/</link>
