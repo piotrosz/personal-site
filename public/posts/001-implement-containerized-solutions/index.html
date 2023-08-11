@@ -44,7 +44,7 @@ Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, Ap
 private Docker registry service based on Docker Registry to store Docker images Azure Container Registry tasks - to build containers in Az - build on demand - triggers (e.g. code commits, base image updates)
 Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, App Service, Batch, Service Fabric, etc. CI/CD pipelines e.g. Azure pipelines, Jenkins ACR service tiers Basic - for learning."><meta itemprop="datePublished" content="2023-07-19T22:59:43+02:00" />
 <meta itemprop="dateModified" content="2023-07-19T22:59:43+02:00" />
-<meta itemprop="wordCount" content="484">
+<meta itemprop="wordCount" content="927">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Implement containerized solutions"/>
 <meta name="twitter:description" content="Implement containerized solutions Create and manage container images for solutions ACR = Azure Container Registry
@@ -251,8 +251,190 @@ Use cases Orchestrators: e.g. Kubernetes, Docker swarm Az services: e.g. AKS, Ap
 <p>ACI starts the container, and then stops it when its application, or script, exits.
 When Azure Container Instances stops a container whose restart policy is <code>Never</code> or <code>OnFailure</code>, the container&rsquo;s status is set to <code>Terminated</code>.</p>
 <h3 id="environment-variables">Environment variables</h3>
-<h3 id="mount-azure-file-share">Mount Azure File Share</h3>
+<p>In YML:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#e6db74">2018-10-01</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">location</span>: <span style="color:#ae81ff">eastus</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">securetest</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mycontainer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">environmentVariables</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;NOTSECRET&#39;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;my-exposed-value&#39;</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;SECRET&#39;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">secureValue</span>: <span style="color:#e6db74">&#39;my-secret-value&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ports</span>: []
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">memoryInGB</span>: <span style="color:#ae81ff">1.5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">osType</span>: <span style="color:#ae81ff">Linux</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">restartPolicy</span>: <span style="color:#ae81ff">Always</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">tags</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">Microsoft.ContainerInstance/containerGroups</span>
+</span></span></code></pre></div><h3 id="mount-azure-file-share">Mount Azure File Share</h3>
+<p><a href="https://learn.microsoft.com/en-us/training/modules/create-run-container-images-azure-container-instances/6-mount-azure-file-share-azure-container-instances">https://learn.microsoft.com/en-us/training/modules/create-run-container-images-azure-container-instances/6-mount-azure-file-share-azure-container-instances</a></p>
 <h2 id="create-solutions-by-using-azure-container-apps">Create solutions by using Azure Container Apps</h2>
+<p>on top of AKS, for:</p>
+<ul>
+<li>api endpoints</li>
+<li>background processing</li>
+<li>event-driven processing</li>
+<li>microservices</li>
+</ul>
+<p>can dynamically scale based on:</p>
+<ul>
+<li>HTTP traffic</li>
+<li>event-driven processing</li>
+<li>CPU/memory load</li>
+<li>Any KEDA supported scaler</li>
+</ul>
+<p>you can:</p>
+<ul>
+<li>run container revisions</li>
+<li>autoscale</li>
+<li>HTTPs ingress</li>
+<li>split traffic across versions</li>
+<li>internal ingress &amp; service discovery</li>
+<li>microservices with Dapr</li>
+<li>use existing VNET</li>
+</ul>
+<h3 id="azure-container-apps-environments">Azure Container Apps environments</h3>
+<p>Environment:</p>
+<ul>
+<li>same log analytics workspace</li>
+<li>same vnet</li>
+<li>boundary around group of container apps</li>
+</ul>
+<p>Reasons to deploy to single environment:</p>
+<ul>
+<li>manage related services</li>
+<li>different apps use same vnet</li>
+<li>use Dapr</li>
+<li>app share Dapr config</li>
+<li>share log analytics workspace</li>
+</ul>
+<p>Reasons to have different environments</p>
+<ul>
+<li>not to share same compute resources</li>
+<li>Dapr apps cannot comunicate via Dapr service invocation API</li>
+</ul>
+<h3 id="microservices-with-azure-container-apps">Microservices with Azure Container Apps</h3>
+<ul>
+<li>scaling, versioning, upgrades</li>
+<li>service discovery</li>
+<li>Dapr integration</li>
+</ul>
+<h3 id="dapr-integration">Dapr integration</h3>
+<p>failures, retries, timeouts
+Dapr has observability, pub/sub, service-to-service invocation, retries, etc.</p>
+<h2 id="explore-containers-in-azure-container-apps">Explore containers in Azure Container Apps</h2>
+<p>Environment -&gt; Container App -&gt; Revision -&gt; Replica -&gt; Container(s)</p>
+<p>Any Linux-based container image</p>
+<h3 id="config">Config</h3>
+<p>ARM template</p>
+<h3 id="multiple-containers">Multiple containers</h3>
+<p>in one Container app
+sidecar pattern</p>
+<h3 id="container-registries">Container registries</h3>
+<p>Use private container registry</p>
+<h2 id="implement-authentication-and-authorization-in-azure-container-apps">Implement authentication and authorization in Azure Container Apps</h2>
+<ul>
+<li>only use it with https</li>
+<li><code>allowInsecure</code> should be disabled in container app&rsquo;s ingress config</li>
+</ul>
+<p><code>Restrict Access</code> setting -&gt; <code>Require authentication</code> or <code>Allow unauthenticated</code></p>
+<h3 id="identity-providers">Identity providers</h3>
+<p>MS, fb, GitHub, Google, Twitter, any OpenID Connect provider</p>
+<p>middleware runs as a sidecar container on each replica of app.
+each incoming HTTP request passes through the layer before reaching app.</p>
+<h2 id="manage-revisions--secrets-in-container-apps">Manage revisions &amp; secrets in container apps</h2>
+<ul>
+<li>revisions are used for app versioning</li>
+<li>revision name, revision suffix</li>
+<li><code>az containerapp create</code>, <code>az containerapp update</code></li>
+<li>revision-scope changes: <a href="https://learn.microsoft.com/en-us/azure/container-apps/revisions#revision-scope-changes">https://learn.microsoft.com/en-us/azure/container-apps/revisions#revision-scope-changes</a></li>
+<li><code>az containerapp revision list</code></li>
+</ul>
+<p>Secrets</p>
+<ul>
+<li>app scope (ouside of revision)</li>
+<li>changing secrets does not generate new revisions</li>
+</ul>
+<p>when you delete a secret:</p>
+<ul>
+<li>deploy a new revision that does not use this secret or</li>
+<li>restart existing revision</li>
+</ul>
+<p>Container app does not support Azure Key Vault but
+you can enable managed identity to use Key Vault SDK.</p>
+<pre tabindex="0"><code>az containerapp create \
+  --resource-group &#34;my-resource-group&#34; \
+  --name queuereader \
+  --environment &#34;my-environment-name&#34; \
+  --image demos/queuereader:v1 \
+  --secrets &#34;queue-connection-string=$CONNECTION_STRING&#34;
+</code></pre><pre tabindex="0"><code>az containerapp create \
+  --resource-group &#34;my-resource-group&#34; \
+  --name myQueueApp \
+  --environment &#34;my-environment-name&#34; \
+  --image demos/myQueueApp:v1 \
+  --secrets &#34;queue-connection-string=$CONNECTIONSTRING&#34; \
+  --env-vars &#34;QueueName=myqueue&#34; &#34;ConnectionString=secretref:queue-connection-string&#34;
+</code></pre><h2 id="dapr">Dapr</h2>
+<p>Distributed Application Runtime</p>
+<ul>
+<li>
+<p>open source</p>
+</li>
+<li>
+<p>Cloud Native Computing Foundation</p>
+</li>
+<li>
+<p>container app wraps and simplifies Dapr usage</p>
+</li>
+</ul>
+<p>Dapr APIs</p>
+<ul>
+<li>
+<p>Service to service integration</p>
+</li>
+<li>
+<p>State mgt</p>
+</li>
+<li>
+<p>pub/sub</p>
+</li>
+<li>
+<p>bindings</p>
+</li>
+<li>
+<p>actors</p>
+</li>
+<li>
+<p>observability</p>
+</li>
+<li>
+<p>secrets</p>
+</li>
+<li>
+<p>Dapr sidecar</p>
+</li>
+<li>
+<p>HTTP or gRPC</p>
+</li>
+<li>
+<p>CLI</p>
+</li>
+<li>
+<p>Bicep or ARM</p>
+</li>
+<li>
+<p>Azure portal</p>
+</li>
+</ul>
 <ul class="pa0">
   
 </ul>
