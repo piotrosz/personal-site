@@ -146,6 +146,185 @@ When Azure Container Instances stops a container whose restart policy is `Never`
 
 ### Environment variables
 
+In YML:
+
+```yml
+apiVersion: 2018-10-01
+location: eastus
+name: securetest
+properties:
+  containers:
+  - name: mycontainer
+    properties:
+      environmentVariables:
+        - name: 'NOTSECRET'
+          value: 'my-exposed-value'
+        - name: 'SECRET'
+          secureValue: 'my-secret-value'
+      image: nginx
+      ports: []
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  osType: Linux
+  restartPolicy: Always
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
+```
+
 ### Mount Azure File Share
 
+https://learn.microsoft.com/en-us/training/modules/create-run-container-images-azure-container-instances/6-mount-azure-file-share-azure-container-instances
+
 ## Create solutions by using Azure Container Apps
+
+on top of AKS, for:
+- api endpoints
+- background processing
+- event-driven processing
+- microservices
+
+can dynamically scale based on:
+
+- HTTP traffic
+- event-driven processing
+- CPU/memory load
+- Any KEDA supported scaler
+
+you can:
+
+- run container revisions
+- autoscale
+- HTTPs ingress
+- split traffic across versions
+- internal ingress & service discovery
+- microservices with Dapr
+- use existing VNET
+
+### Azure Container Apps environments
+
+Environment:
+ - same log analytics workspace
+ - same vnet
+ - boundary around group of container apps
+
+ Reasons to deploy to single environment:
+ - manage related services
+ - different apps use same vnet
+ - use Dapr
+ - app share Dapr config
+ - share log analytics workspace
+
+ Reasons to have different environments
+ - not to share same compute resources
+ - Dapr apps cannot comunicate via Dapr service invocation API
+
+### Microservices with Azure Container Apps
+
+- scaling, versioning, upgrades
+- service discovery
+- Dapr integration
+
+### Dapr integration
+
+failures, retries, timeouts
+Dapr has observability, pub/sub, service-to-service invocation, retries, etc.
+
+## Explore containers in Azure Container Apps
+
+Environment -> Container App -> Revision -> Replica -> Container(s)
+
+Any Linux-based container image
+
+### Config
+
+ARM template
+
+### Multiple containers
+
+in one Container app
+sidecar pattern
+
+### Container registries
+
+Use private container registry
+
+## Implement authentication and authorization in Azure Container Apps
+
+- only use it with https
+- `allowInsecure` should be disabled in container app's ingress config
+
+`Restrict Access` setting -> `Require authentication` or `Allow unauthenticated`
+
+### Identity providers
+
+MS, fb, GitHub, Google, Twitter, any OpenID Connect provider
+
+middleware runs as a sidecar container on each replica of app.
+each incoming HTTP request passes through the layer before reaching app.
+
+## Manage revisions & secrets in container apps
+
+- revisions are used for app versioning
+- revision name, revision suffix
+- `az containerapp create`, `az containerapp update`
+- revision-scope changes: https://learn.microsoft.com/en-us/azure/container-apps/revisions#revision-scope-changes
+- `az containerapp revision list`
+
+Secrets 
+
+- app scope (ouside of revision)
+- changing secrets does not generate new revisions
+
+when you delete a secret:
+- deploy a new revision that does not use this secret or
+- restart existing revision
+
+Container app does not support Azure Key Vault but
+you can enable managed identity to use Key Vault SDK.
+
+```
+az containerapp create \
+  --resource-group "my-resource-group" \
+  --name queuereader \
+  --environment "my-environment-name" \
+  --image demos/queuereader:v1 \
+  --secrets "queue-connection-string=$CONNECTION_STRING"
+```
+
+```
+az containerapp create \
+  --resource-group "my-resource-group" \
+  --name myQueueApp \
+  --environment "my-environment-name" \
+  --image demos/myQueueApp:v1 \
+  --secrets "queue-connection-string=$CONNECTIONSTRING" \
+  --env-vars "QueueName=myqueue" "ConnectionString=secretref:queue-connection-string"
+```
+
+## Dapr
+
+Distributed Application Runtime
+- open source
+- Cloud Native Computing Foundation
+
+- container app wraps and simplifies Dapr usage
+
+Dapr APIs
+
+- Service to service integration
+- State mgt
+- pub/sub
+- bindings
+- actors
+- observability
+- secrets
+
+- Dapr sidecar
+- HTTP or gRPC
+
+- CLI
+- Bicep or ARM
+- Azure portal
+
